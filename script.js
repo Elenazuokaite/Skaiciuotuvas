@@ -1,15 +1,25 @@
 var result = "0";//pradinis
-var action = "";//veiksmo kintamasis
-var number = "";
+var action = "0";//veiksmo kintamasis
+var number = "0";
 var operation = "";
-
+var lastResult = "0";
 
 window.onload = function() {
 document.getElementById("result").innerHTML = result;
 };
 
+function digitLimit() {
+    if(action.length > 8) {
+        alert("Pasiektas įvesties limitas");
+        return true;
+    }
+
+        return false;
+    
+}
 function clearResult() {
     result = "0";
+    lastResult = "0"
     action = result;
     dots = 0;
     document.getElementById("result").innerHTML = result;
@@ -17,6 +27,9 @@ function clearResult() {
 
 
 function numberInput(number) {
+    if(digitLimit()) {
+        return false;
+    };
     if (action == "0" || action == "") {
         action = number;
         document.getElementById("result").innerHTML = action;
@@ -85,16 +98,24 @@ function addDot() {
 }
 
 function showResult() {
-    if (operation == "plus") {
-        result = parseFloat(result) + parseFloat(action);
-    } else if (operation == "minus") {
-        result = parseFloat(result) - parseFloat(action);
-    } else if (operation == "divide") {
-        result = parseFloat(result) / parseFloat(action);
-    } else if (operation == "multiple") {
-        result = parseFloat(result) * parseFloat(action);
-    } else if (operation == "percent") {
-        result = parseFloat(result) * (parseFloat(action) / 100);
+
+    lastResult = parseFloat(lastResult);
+    if(lastResult != "") {
+        result = lastResult;
     }
-    document.getElementById("result").innerHTML = result;
+
+    if (operation == "plus") {
+        lastResult = parseFloat(result) + parseFloat(action);
+    } else if (operation == "minus") {
+        lastResult = parseFloat(result) - parseFloat(action);
+    } else if (operation == "divide") {
+        lastResult = parseFloat(result) / parseFloat(action);
+    } else if (operation == "multiple") {
+        lastResult = parseFloat(result) * parseFloat(action);
+    } else if (operation == "percent") {
+        lastResult = parseFloat(result) * (parseFloat(action) / 100);
+    } else {
+        lastResult = "0";
+    }
+    document.getElementById("result").innerHTML = lastResult;
 }
